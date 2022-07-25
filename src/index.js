@@ -1,4 +1,4 @@
-import { getAllDomNodes } from "lib";
+import { getAllDomNodes } from "./lib";
 
 class N2f {
   constructor(options) {
@@ -7,7 +7,7 @@ class N2f {
   }
 
   init() {
-    getAllDomNodes(document.body, this.domArr)
+    getAllDomNodes(document.body, this.domArr, "INPUT")
   }
 
   resetFocus(from = 0) {}
