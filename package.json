@@ -1,0 +1,22 @@
+{
+  "name": "n2f",
+  "description": "a toolkit for next input focus",
+  "version": "0.0.1",
+  "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup --config rollup.config.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "autofocus",
+    "next focus",
+    "input focus"
+  ],
+  "devDependencies": {
+    "rollup": "^2.76.0",
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}
