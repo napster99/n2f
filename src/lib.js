@@ -5,6 +5,7 @@
 
 export function getAllDomNodes(root = document.body, domArr = [], filterElementTagName) {
   if (root) {
+    // 元素节点
     if (root.nodeType === 1) {
       if (!filterElementTagName || root.tagName === filterElementTagName) {
         domArr.push(root);
@@ -18,19 +19,6 @@ export function getAllDomNodes(root = document.body, domArr = [], filterElementT
       if (root.nextElementSibling) {
         getAllDomNodes(root.nextElementSibling);
       } else {
-        let _root = root;
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-          // 返回上级节点，直至HTML
-          if (_root.tagName === "HTML") break;
-          if (_root.parentElement.nextElementSibling) {
-            getAllDomNodes(_root.parentElement.nextElementSibling);
-            break;
-          } else {
-            _root = _root.parentElement;
-          }
-        }
-
         returnBySameRoute(root, getAllDomNodes, "nextElementSibling", "parentElement");
       }
     }
