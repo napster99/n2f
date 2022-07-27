@@ -1,5 +1,8 @@
 import { getAllDomNodes } from "./lib";
-console.log("load n2f ...");
+
+const __N2FID__ = "__n2fid__";
+const FocusElement = Object.freeze(["INPUT", "TEXTAREA"]);
+
 /**
  * options
  *  |- root
@@ -11,7 +14,13 @@ console.log("load n2f ...");
  *      |- pIndex 游标指针 默认: 0
  */
 class N2f {
-  constructor({ root, domArr, filterElementTagName, rules = {}, ...reset }) {
+  constructor({
+    root,
+    domArr,
+    filterElementTagName = FocusElement,
+    rules = {},
+    ...reset
+  }) {
     try {
       this.options = {
         root,
@@ -35,6 +44,11 @@ class N2f {
       this.domArr,
       this.options.filterElementTagName
     );
+    this.domArr.map((item, index) =>
+      FocusElement.includes(item.tagName)
+        ? item.setAttribute(__N2FID__, index)
+        : null
+    );
     this.domArr[this.pIndex] && this.domArr[this.pIndex].focus();
   }
 
@@ -44,6 +58,17 @@ class N2f {
       (e) => {
         if (e.keyCode === 13) {
           this.injectRules();
+        }
+      },
+      false
+    );
+
+    window.addEventListener(
+      "click",
+      (e) => {
+        const curIndex = e.target.getAttribute(__N2FID__);
+        if (curIndex) {
+          this.resetFocus(curIndex);
         }
       },
       false
@@ -58,12 +83,22 @@ class N2f {
         if (this.pIndex === this.domArr.length) break;
       }
     } else {
-      this.pIndex = this.pIndex === this.domArr.length - 1 ?  this.domArr.length - 1 : ++this.pIndex
+      this.pIndex =
+        this.pIndex === this.domArr.length - 1
+          ? this.domArr.length - 1
+          : ++this.pIndex;
+    }
+    while (true) {
+      if (!this.domArr[this.pIndex].hasAttribute("disabled")) break;
+      if (this.pIndex === this.domArr.length) break;
+      this.pIndex = ++this.pIndex;
     }
     this.domArr[this.pIndex].focus();
   }
 
-  resetFocus(from = 0) {}
+  resetFocus(resetIndex = 0) {
+    this.pIndex = resetIndex;
+  }
 }
 
 export default N2f;

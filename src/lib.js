@@ -14,7 +14,10 @@ export function getAllDomNodes(
 
     // 元素节点
     if (root.nodeType === 1) {
-      if (!filterElementTagName || root.tagName === filterElementTagName) {
+      if (
+        !filterElementTagName ||
+        filterElementTagName.includes(root.tagName)
+      ) {
         domArr.push(root);
         root.style.border = "1px solid red";
       }
