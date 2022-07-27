@@ -18,36 +18,20 @@ export function getAllDomNodes(
         domArr.push(root);
         root.style.border = "1px solid red";
       }
-      if (root.hasChildNodes()) {
-        getAllDomNodes(
-          root.childNodes[0],
-          domArr,
-          filterElementTagName,
-          blockRoot
-        );
-      } else {
-        returnBySameRoute(
-          root,
-          { getAllDomNodes, domArr, filterElementTagName },
-          "nextElementSibling"
-        );
-      }
+    }
+
+    const nextRoot =
+      root.nodeType === 1 ? root.childNodes[0] : root.nextElementSibling;
+    const argString = root.nodeType === 1 ? "" : "parentElement";
+    if (nextRoot) {
+      getAllDomNodes(nextRoot, domArr, filterElementTagName, blockRoot);
     } else {
-      if (root.nextElementSibling) {
-        getAllDomNodes(
-          root.nextElementSibling,
-          domArr,
-          filterElementTagName,
-          blockRoot
-        );
-      } else {
-        returnBySameRoute(
-          root,
-          { getAllDomNodes, domArr, filterElementTagName, blockRoot },
-          "nextElementSibling",
-          "parentElement"
-        );
-      }
+      returnBySameRoute(
+        root,
+        { getAllDomNodes, domArr, filterElementTagName, blockRoot },
+        "nextElementSibling",
+        argString
+      );
     }
   }
 }

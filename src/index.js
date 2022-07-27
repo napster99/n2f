@@ -8,8 +8,7 @@ class N2f {
   }
 
   init() {
-    getAllDomNodes(document.body, this.domArr, "INPUT");
-    console.log("this.domArr", this.domArr);
+    getAllDomNodes(this.options.root, this.domArr, this.options.filterElementTagName);
   }
 
   resetFocus(from = 0) {}
