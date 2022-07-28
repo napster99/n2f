@@ -67,7 +67,7 @@ class N2f {
       "click",
       (e) => {
         const curIndex = e.target.getAttribute(__N2FID__);
-        if (curIndex) {
+        if (curIndex || curIndex === 0) {
           this.resetFocus(curIndex);
         }
       },
