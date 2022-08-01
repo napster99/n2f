@@ -6,8 +6,9 @@ const FocusElement = Object.freeze(["INPUT", "TEXTAREA"]);
 /**
  * options
  *  |- root
- *  |- domArr
+ *  |- domArr // 废弃
  *  |- filterElementTagName
+ *  |- submitCallback
  *  |- rules
  *      |- skipNull 跳过有值输入框
  *      |- delay 延迟聚焦  默认: 100ms
@@ -16,47 +17,61 @@ const FocusElement = Object.freeze(["INPUT", "TEXTAREA"]);
 class N2f {
   constructor({
     root,
-    domArr,
     filterElementTagName = FocusElement,
     rules = {},
+    submitCallback,
     ...reset
   }) {
     try {
+      console.log("constructor ...");
       this.options = {
         root,
-        domArr,
         filterElementTagName,
+        submitCallback,
         rules,
         ...reset,
       };
       this.pIndex = rules.pIndex || 0;
-      this.domArr = this.options.domArr || [];
+      this.domArr = [];
       this.init();
-      this.bindListener();
+      this.bindingListener();
     } catch (e) {
       throw Error(e.message);
     }
   }
 
+  getDomArr() {
+    return this.domArr;
+  }
+
   init() {
+    this.bindingDoms();
+    this.domArr[this.pIndex] && this.domArr[this.pIndex].focus();
+  }
+
+  bindingDoms() {
+    this.domArr = [];
     getAllDomNodes(
       this.options.root,
       this.domArr,
       this.options.filterElementTagName
     );
-    this.domArr.map((item, index) =>
+    this.domArr.map((item, index) => {
       FocusElement.includes(item.tagName)
         ? item.setAttribute(__N2FID__, index)
-        : null
-    );
-    this.domArr[this.pIndex] && this.domArr[this.pIndex].focus();
+        : null;
+      // 记忆上一次位置 TODO
+    });
   }
 
-  bindListener() {
+  bindingListener() {
     window.addEventListener(
       "keydown",
       (e) => {
         if (e.keyCode === 13) {
+          if (this.pIndex + 1 === this.domArr.length) {
+            this.options.submitCallback && this.options.submitCallback();
+          }
           this.injectRules();
         }
       },
@@ -89,8 +104,9 @@ class N2f {
           : ++this.pIndex;
     }
     while (true) {
+      console.log(this.domArr, this.pIndex, this.domArr[this.pIndex]);
       if (!this.domArr[this.pIndex].hasAttribute("disabled")) break;
-      if (this.pIndex === this.domArr.length) break;
+      if (this.pIndex + 1 === this.domArr.length) break;
       this.pIndex = ++this.pIndex;
     }
     this.domArr[this.pIndex].focus();
