@@ -116,7 +116,7 @@ class N2f {
 
   resetFocus(resetIndex = 0) {
     this.pIndex = resetIndex;
-    this.pDom = this.domArr[resetIndex]
+    this.pDom = this.domArr[resetIndex];
   }
 }
 
