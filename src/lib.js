@@ -19,7 +19,6 @@ export function getAllDomNodes(
         filterElementTagName.includes(root.tagName)
       ) {
         domArr.push(root);
-        root.style.border = "1px solid red";
       }
     }
 

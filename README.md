@@ -12,7 +12,7 @@ a toolkit for next input focus
 
  new n2f({
    root: '', // opt default by document.body
-   domArr: [], // return dom arrs
+   //domArr: [], // return dom arrs expored by getDomArr() insteaded
    filterElementTagName: '', // opt default by BODY
  })
 ```

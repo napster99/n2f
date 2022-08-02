@@ -23,7 +23,6 @@ class N2f {
     ...reset
   }) {
     try {
-      console.log("constructor ...");
       this.options = {
         root,
         filterElementTagName,
@@ -31,7 +30,8 @@ class N2f {
         rules,
         ...reset,
       };
-      this.pIndex = rules.pIndex || 0;
+      this.pIndex = rules.pIndex || 0; // 当前获取焦点DOM游标
+      this.pDom = null; // 当前获取焦点的DOM
       this.domArr = [];
       this.init();
       this.bindingListener();
@@ -60,7 +60,6 @@ class N2f {
       FocusElement.includes(item.tagName)
         ? item.setAttribute(__N2FID__, index)
         : null;
-      // 记忆上一次位置 TODO
     });
   }
 
@@ -91,6 +90,9 @@ class N2f {
   }
 
   injectRules(pIndex) {
+    if (this.pDom) {
+      this.pIndex = ~~this.pDom.getAttribute(__N2FID__);
+    }
     this.pIndex = pIndex || this.pIndex || 0;
     if (this.options.rules.skipNull) {
       while (true) {
@@ -104,16 +106,17 @@ class N2f {
           : ++this.pIndex;
     }
     while (true) {
-      console.log(this.domArr, this.pIndex, this.domArr[this.pIndex]);
       if (!this.domArr[this.pIndex].hasAttribute("disabled")) break;
       if (this.pIndex + 1 === this.domArr.length) break;
       this.pIndex = ++this.pIndex;
     }
     this.domArr[this.pIndex].focus();
+    this.pDom = this.domArr[this.pIndex];
   }
 
   resetFocus(resetIndex = 0) {
     this.pIndex = resetIndex;
+    this.pDom = this.domArr[resetIndex]
   }
 }
 
