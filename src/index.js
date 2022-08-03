@@ -64,29 +64,27 @@ class N2f {
   }
 
   bindingListener() {
-    window.addEventListener(
-      "keydown",
-      (e) => {
-        if (e.keyCode === 13) {
-          if (this.pIndex + 1 === this.domArr.length || !this.domArr.length) {
-            this.options.submitCallback && this.options.submitCallback();
-          }
-          this.injectRules();
+    this.keyDownFn = (e) => {
+      if (e.keyCode === 13) {
+        if (this.pIndex + 1 === this.domArr.length || !this.domArr.length) {
+          this.options.submitCallback && this.options.submitCallback();
         }
-      },
-      false
-    );
+        this.injectRules();
+      }
+    };
+    this.clickFn = (e) => {
+      const curIndex = e.target.getAttribute(__N2FID__);
+      if (curIndex || curIndex === 0) {
+        this.resetFocus(curIndex);
+      }
+    };
+    window.addEventListener("keydown", this.keyDownFn, false);
+    window.addEventListener("click", this.clickFn, false);
+  }
 
-    window.addEventListener(
-      "click",
-      (e) => {
-        const curIndex = e.target.getAttribute(__N2FID__);
-        if (curIndex || curIndex === 0) {
-          this.resetFocus(curIndex);
-        }
-      },
-      false
-    );
+  unbindListener() {
+    window.removeEventListener("keydown", this.keyDownFn);
+    window.removeEventListener("click", this.clickFn);
   }
 
   injectRules(pIndex) {
