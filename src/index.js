@@ -68,7 +68,7 @@ class N2f {
       "keydown",
       (e) => {
         if (e.keyCode === 13) {
-          if (this.pIndex + 1 === this.domArr.length) {
+          if (this.pIndex + 1 === this.domArr.length || !this.domArr.length) {
             this.options.submitCallback && this.options.submitCallback();
           }
           this.injectRules();
@@ -105,13 +105,15 @@ class N2f {
           ? this.domArr.length - 1
           : ++this.pIndex;
     }
-    while (true) {
-      if (!this.domArr[this.pIndex].hasAttribute("disabled")) break;
-      if (this.pIndex + 1 === this.domArr.length) break;
-      this.pIndex = ++this.pIndex;
+    if (this.domArr[this.pIndex]) {
+      while (true) {
+        if (!this.domArr[this.pIndex].hasAttribute("disabled")) break;
+        if (this.pIndex + 1 === this.domArr.length) break;
+        this.pIndex = ++this.pIndex;
+      }
+      this.domArr[this.pIndex].focus();
+      this.pDom = this.domArr[this.pIndex];
     }
-    this.domArr[this.pIndex].focus();
-    this.pDom = this.domArr[this.pIndex];
   }
 
   resetFocus(resetIndex = 0) {
