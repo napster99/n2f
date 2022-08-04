@@ -1,6 +1,7 @@
 import { getAllDomNodes } from "./lib";
 
 const __N2FID__ = "__n2fid__";
+const __NF__ = "__nf__";
 const FocusElement = Object.freeze(["INPUT", "TEXTAREA"]);
 
 /**
@@ -103,11 +104,18 @@ class N2f {
           ? this.domArr.length - 1
           : ++this.pIndex;
     }
+    if (
+      this.pIndex > 0 &&
+      this.domArr[this.pIndex - 1] &&
+      this.domArr[this.pIndex - 1].getAttribute(__NF__)
+    ) {
+      this.pIndex--;
+    }
     if (this.domArr[this.pIndex]) {
       while (true) {
         if (!this.domArr[this.pIndex].hasAttribute("disabled")) break;
         if (this.pIndex + 1 === this.domArr.length) break;
-        this.pIndex = ++this.pIndex;
+        this.pIndex++;
       }
       this.domArr[this.pIndex].focus();
       this.pDom = this.domArr[this.pIndex];
