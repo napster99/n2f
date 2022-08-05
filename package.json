@@ -1,7 +1,7 @@
 {
   "name": "n2f",
   "description": "a toolkit for next input focus",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "main": "dist/n2f.min.js",
   "homepage": "https://github.com/napster99/n2f",
   "files": [

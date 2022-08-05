@@ -45,9 +45,13 @@ class N2f {
     return this.domArr;
   }
 
+  getIndex() {
+    return this.pIndex
+  }
+
   init() {
     this.bindingDoms();
-    this.domArr[this.pIndex] && this.domArr[this.pIndex].focus();
+    // this.domArr[this.pIndex] && this.domArr[this.pIndex].focus();
   }
 
   bindingDoms() {
@@ -120,6 +124,7 @@ class N2f {
       this.domArr[this.pIndex].focus();
       this.pDom = this.domArr[this.pIndex];
     }
+
   }
 
   resetFocus(resetIndex = 0) {
