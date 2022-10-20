@@ -72,7 +72,7 @@ class N2f {
     this.keyDownFn = (e) => {
       if (e.keyCode === 13) {
         if (this.pIndex + 1 === this.domArr.length || !this.domArr.length) {
-          this.options.submitCallback && this.options.submitCallback();
+          this.options.submitCallback && this.options.submitCallback(e);
         }
         this.injectRules();
       }
